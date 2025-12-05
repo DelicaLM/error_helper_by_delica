@@ -60,7 +60,7 @@ jobs:
 
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/<package-name>
+      url: https://test.pypi.org/p/error_helper_by_delica
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
