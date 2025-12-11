@@ -1,6 +1,6 @@
 [project]
 name = "error_helper_by_delica"
-version = "0.1.2"
+dynamic = ["version"]
 authors = [
   { name="Delica Leboe-McGowan", email="stormindustries22@outlook.com" },
 ]
@@ -19,5 +19,5 @@ license-files = ["LICENCE*"]
 Homepage = "https://github.com/DelicaLM/error_helper_by_delica/blob/develop/"
 
 [build-system]
-requires = ["setuptools >= 77.0.3"]
+requires = ["setuptools >= 77.0.3", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
