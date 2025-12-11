@@ -21,3 +21,6 @@ Homepage = "https://github.com/DelicaLM/error_helper_by_delica/blob/develop/"
 [build-system]
 requires = ["setuptools >= 77.0.3", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
