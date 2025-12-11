@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-setup.py
-error_helper_by_delica/__init__.py
-error_helper_by_delica/error_helper_funcs.py
-error_helper_by_delica.egg-info/PKG-INFO
-error_helper_by_delica.egg-info/SOURCES.txt
-error_helper_by_delica.egg-info/dependency_links.txt
-error_helper_by_delica.egg-info/top_level.txt
