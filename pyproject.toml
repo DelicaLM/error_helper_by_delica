@@ -16,7 +16,7 @@ license = "MIT"
 license-files = ["LICENCE*"]
 
 [project.urls]
-Homepage = "https://github.com/DelicaLM/error_helper_by_delica/"
+Homepage = "https://github.com/DelicaLM/error_helper_by_delica/blob/develop/"
 
 [build-system]
 requires = ["setuptools >= 77.0.3"]
