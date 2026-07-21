@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-import error_helper_by_delica.error_helper_funcs as error_helper
+import src.error_helper_funcs as error_helper
 import test_helper_by_delica as test_lib
 
 
