@@ -99,6 +99,19 @@ def check_type(input_value, required_type, var_name, alt_type=None, alt_types=No
     return is_correct_type
 
 def check_can_convert(input_value, post_convert_type, var_name, prefix=""):
+    """
+
+    Parameters
+    ----------
+    input_value
+    post_convert_type
+    var_name
+    prefix
+
+    Returns
+    -------
+
+    """
     in_range_setup_prefix = prefix + "\nCAN CONVERT VALIDATION SETUP ERROR\n"
     # Make sure that the variable name is a string.
     check_type(var_name, str,
