@@ -1,1 +1,3 @@
 import test_helper_by_delica
+
+test_helper_by_delica.test_bool_func()

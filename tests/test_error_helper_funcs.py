@@ -1,9 +1,23 @@
-import unittest
-from unittest import TestCase
+"""Script to test the functions in the test helper package (error_helper_funcs.py)."""
 
-import error_helper_by_delica.error_helper_funcs as error_helper
+import error_helper_by_delica.error_helper_funcs as error_lib
 import test_helper_by_delica as test_lib
 
+run_all_tests = True
+"bool : Boolean flag for whether all tests should be run, regardless of their boolean flags below."
+
+test_check_type = True
+"bool : Boolean flag for whether or not to run the tests for the check_type function."
+test_check_can_convert = True
+"bool : Boolean flag for whether or not to run the tests for the check_can_convert function."
+test_check_value_is_in_range = True
+"bool : Boolean flag for whether or not to run the tests for the check_value_is_in_range function."
+test_check_value_is_in_set = True
+"bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
+
+
+
+#if test_check_type or run_all_tests:
 
 #
 # class Test(TestCase):
