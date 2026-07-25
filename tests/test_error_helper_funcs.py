@@ -1,7 +1,45 @@
 """Script to test the functions in the test helper package (error_helper_funcs.py)."""
 
-import error_helper_by_delica.error_helper_funcs as error_lib
+import error_helper_by_delica as error_lib
 import test_helper_by_delica as test_lib
+from test_helper_by_delica.IOPair import IOPair
+
+import random as rand
+
+LARGE_INT = 100000000
+LONG_LIST_LENGTH = 250
+
+def get_rand_int():
+    return rand.randint(-LARGE_INT, LARGE_INT)
+
+def get_rand_pos_int():
+    return rand.randint(1, LARGE_INT)
+
+def get_rand_neg_int():
+    return rand.randint(-LARGE_INT, 0)
+
+def get_rand_float():
+    return 2.0*rand.random()*LARGE_INT - LARGE_INT
+
+def get_rand_pos_float():
+    return rand.random()*LARGE_INT
+
+def get_rand_neg_float():
+    return -rand.random()*LARGE_INT
+
+
+def get_rand_int_list(num_ints):
+    return [get_rand_int() for i in range(num_ints)]
+
+def get_rand_pos_int_list(num_ints):
+    return [get_rand_pos_int() for i in range(num_ints)]
+
+def get_rand_neg_int_list(num_ints):
+    return [get_rand_pos_int() for i in range(num_ints)]
+
+
+
+
 
 run_all_tests = True
 "bool : Boolean flag for whether all tests should be run, regardless of their boolean flags below."
@@ -16,6 +54,53 @@ test_check_value_is_in_set = True
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
 
 
+if test_check_type or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_type,
+        [IOPair((True, bool, "true_bool_val"),(True,)),
+         IOPair((False, bool, "false_bool_val"),(True,)),
+         IOPair((0, int, "zero_int_val"),(True,)),
+         IOPair((0, bool, "zero_int_val"),(TypeError,)),
+         IOPair((0, float, "zero_int_val"),(TypeError,)),
+         IOPair((1, int, "one_int_val"),(True,)),
+         IOPair((1, bool, "one_int_val"),(TypeError,)),
+         IOPair((-1, int, "negone_int_val"),(True,)),
+         IOPair((get_rand_pos_int(), int, "rand_pos_int_val"), (True,)),
+         IOPair((get_rand_pos_int(), float, "rand_pos_int_val"), (TypeError,)),
+         IOPair((get_rand_pos_int(), str, "rand_pos_int_val"), (TypeError,)),
+         IOPair((get_rand_neg_int(), int, "rand_neg_int_val"),(True,)),
+         IOPair((get_rand_neg_int(), float, "rand_neg_int_val"),(TypeError,)),
+         IOPair((get_rand_neg_int(), str, "rand_neg_int_val"),(TypeError,)),
+         ])
+
+
+if test_check_can_convert or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_can_convert,[
+                # Test check type on an integer of value zero
+                IOPair((0, int, "zero_int_val"),(True,)),
+                IOPair((0,float, "zero_int_val"),(True,)),
+                IOPair((0,str, "zero_int_val"),(True,)),
+                IOPair((0, list, "zero_int_val"), (TypeError,)),
+                # Test check type on a random positive integer
+                IOPair((get_rand_pos_int(), int, "rand_pos_int_val"), (True,)),
+                IOPair((get_rand_pos_int(), float, "rand_pos_int_val"), (True,)),
+                IOPair((get_rand_pos_int(), str, "rand_pos_int_val"), (True,)),
+                IOPair((get_rand_pos_int(), list, "rand_pos_int_val"), (TypeError,)),
+                # Test check type on a random negative integer
+                IOPair((get_rand_neg_int(), int, "rand_neg_int_val"), (True,)),
+                IOPair((get_rand_neg_int(), float, "rand_neg_val"), (True,)),
+                IOPair((get_rand_neg_int(), str, "rand_neg_int_val"), (True,)),
+                IOPair((get_rand_neg_int(), list, "rand_neg_int_val"), (TypeError,)),
+                # Test check type on floats
+                # Test check type on strings
+                # Test check type on list variables
+                IOPair(([], list, "empty_list"), (True,)),
+                IOPair(([get_rand_int()], list, "single_rand_int_list"), (True,)),
+                IOPair((get_rand_int_list(LONG_LIST_LENGTH), list, "long_int_list"), (True,)),
+                IOPair(([], int, "empty_list"), (TypeError,)),
+                IOPair(([], str, "empty_list"), (True,)),
+                IOPair(([get_rand_int()], str, "single_rand_int_list"), (True,)),
+                IOPair((get_rand_int_list(LONG_LIST_LENGTH), list, "long_int_list"), (True,)),
+                ])
 
 #if test_check_type or run_all_tests:
 
