@@ -7,7 +7,13 @@ from test_helper_by_delica.IOPair import IOPair
 import random as rand
 
 LARGE_INT = 100000000
+SHORT_LIST_LENGTH = 10
 LONG_LIST_LENGTH = 250
+ATOZ_LOWERCASE = "abcdefghijklmnopqrstuvwxyz"
+ATOZ_UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+ATOZ_MIXEDCASE = ATOZ_LOWERCASE + ATOZ_UPPERCASE
+SHORT_STRING_LENGTH = 5
+LONG_STRING_LENGTH = 50
 
 def get_rand_int():
     return rand.randint(-LARGE_INT, LARGE_INT)
@@ -37,6 +43,48 @@ def get_rand_pos_int_list(num_ints):
 def get_rand_neg_int_list(num_ints):
     return [get_rand_pos_int() for i in range(num_ints)]
 
+def get_rand_letter_lowercase():
+    return rand.choice(ATOZ_LOWERCASE)
+
+def get_rand_letter_uppercase():
+    return rand.choice(ATOZ_UPPERCASE)
+
+def get_rand_letter_mixedcase():
+    return rand.choice(ATOZ_MIXEDCASE)
+
+def get_rand_az_string_lowercase(num_chars):
+    result = ""
+    for i in range(num_chars):
+        result += rand.choice(ATOZ_LOWERCASE)
+    return result
+
+def get_rand_az_string_uppercase(num_chars):
+    result = ""
+    for i in range(num_chars):
+        result += rand.choice(ATOZ_UPPERCASE)
+    return result
+
+def get_rand_az_string_mixedcase(num_chars):
+    result = ""
+    for i in range(num_chars):
+        result += rand.choice(ATOZ_MIXEDCASE)
+    return result
+
+def get_rand_letter_list(list_length):
+    return [rand.choice(ATOZ_MIXEDCASE) for i in range(list_length)]
+
+def get_rand_az_string_list(list_length):
+    min_string_length = 1
+    max_string_length = LONG_STRING_LENGTH
+    result = [""]*list_length
+    for i in range(list_length):
+        string_length = rand.randint(min_string_length, max_string_length+1)
+        result[i] = get_rand_az_string_mixedcase(string_length)
+    return result
+
+
+
+
 
 
 
@@ -56,43 +104,112 @@ test_check_value_is_in_set = True
 
 if test_check_type or run_all_tests:
     test_lib.run_func_tests(error_lib.check_type,
-        [IOPair((True, bool, "true_bool_val"),(True,)),
-         IOPair((False, bool, "false_bool_val"),(True,)),
-         IOPair((0, int, "zero_int_val"),(True,)),
-         IOPair((0, bool, "zero_int_val"),(TypeError,)),
-         IOPair((0, float, "zero_int_val"),(TypeError,)),
-         IOPair((1, int, "one_int_val"),(True,)),
-         IOPair((1, bool, "one_int_val"),(TypeError,)),
-         IOPair((-1, int, "negone_int_val"),(True,)),
-         IOPair((get_rand_pos_int(), int, "rand_pos_int_val"), (True,)),
-         IOPair((get_rand_pos_int(), float, "rand_pos_int_val"), (TypeError,)),
-         IOPair((get_rand_pos_int(), str, "rand_pos_int_val"), (TypeError,)),
-         IOPair((get_rand_neg_int(), int, "rand_neg_int_val"),(True,)),
-         IOPair((get_rand_neg_int(), float, "rand_neg_int_val"),(TypeError,)),
-         IOPair((get_rand_neg_int(), str, "rand_neg_int_val"),(TypeError,)),
-         ])
+        [
+        # Test check type on boolean values
+        IOPair((True, bool, "true_bool_val"),(True,)),
+        IOPair((False, bool, "false_bool_val"),(True,)),
+        IOPair((True, int, "true_bool_val"), (TypeError,)),
+        IOPair((False, int, "false_bool_val"), (TypeError,)),
+        IOPair((True, float, "true_bool_val"), (TypeError,)),
+        IOPair((False, float, "false_bool_val"), (TypeError,)),
+        IOPair((True, str, "true_bool_val"), (TypeError,)),
+        IOPair((False, str, "false_bool_val"), (TypeError,)),
+        IOPair((True, list, "true_bool_val"), (TypeError,)),
+        IOPair((False, list, "false_bool_val"), (TypeError,)),
+        # Test check type on integer values
+        IOPair((0, int, "zero_int_val"),(True,)),
+        IOPair((0, bool, "zero_int_val"),(TypeError,)),
+        IOPair((0, float, "zero_int_val"),(TypeError,)),
+        IOPair((1, int, "one_int_val"),(True,)),
+        IOPair((1, bool, "one_int_val"),(TypeError,)),
+        IOPair((-1, int, "negone_int_val"),(True,)),
+        IOPair((get_rand_pos_int(), int, "rand_pos_int_val"), (True,)),
+        IOPair((get_rand_pos_int(), float, "rand_pos_int_val"), (TypeError,)),
+        IOPair((get_rand_pos_int(), str, "rand_pos_int_val"), (TypeError,)),
+        IOPair((get_rand_neg_int(), int, "rand_neg_int_val"),(True,)),
+        IOPair((get_rand_neg_int(), float, "rand_neg_int_val"),(TypeError,)),
+        IOPair((get_rand_neg_int(), str, "rand_neg_int_val"),(TypeError,)),
+        # Test check type on floats
+        IOPair((0.0, float, "zero_float_val"), (True,)),
+        IOPair((1.0, float, "pos_one_float_val"), (True,)),
+        IOPair((-1.0, float, "neg_one_float_val"), (True,)),
+        IOPair((get_rand_pos_float(), float, "rand_pos_float_val"), (True,)),
+        IOPair((get_rand_neg_float(), float, "rand_neg_float_val"), (True,)),
+        IOPair((0.0, int, "zero_float_val"), (TypeError,)),
+        IOPair((get_rand_float(), int, "rand_float_val"), (TypeError,)),
+        IOPair((get_rand_float(), str, "rand_float_val"), (TypeError,)),
+        IOPair((get_rand_float(), list, "rand_float_val"), (TypeError,)),
+        # Test check type on strings
+        IOPair(("", str, "empty_string_val"), (True,)),
+        IOPair((get_rand_letter_lowercase(), str, "rand_lowercase_letter_val"), (True,)),
+        IOPair((get_rand_letter_uppercase(), str, "rand_uppercase_letter_val"), (True,)),
+        IOPair((get_rand_az_string_lowercase(SHORT_STRING_LENGTH), str, "rand_lowercase_short_az_string_val"),
+               (True,)),
+        IOPair((get_rand_az_string_uppercase(SHORT_STRING_LENGTH), str, "rand_uppercase_short_az_string_val"),
+               (True,)),
+        IOPair((get_rand_az_string_mixedcase(SHORT_STRING_LENGTH), str, "rand_mixedcase_short_az_string_val"),
+               (True,)),
+        IOPair((get_rand_az_string_mixedcase(LONG_STRING_LENGTH), str, "rand_mixedcase_long_az_string_val"),
+               (True,)),
+        IOPair(("", bool, "empty_string_val"), (TypeError,)),
+        IOPair(("", int, "empty_string_val"), (TypeError,)),
+        IOPair(("", float, "empty_string_val"), (TypeError,)),
+        IOPair(("", list, "empty_string_val"), (TypeError,)),
+        IOPair((get_rand_letter_mixedcase(), bool, "rand_mixedcase_letter_val"),
+               (TypeError,)),
+        IOPair((get_rand_letter_mixedcase(), int, "rand_mixedcase_letter_val"),
+               (TypeError,)),
+        IOPair((get_rand_letter_mixedcase(), float, "rand_mixedcase_letter_val"),
+               (TypeError,)),
+        IOPair((get_rand_letter_mixedcase(), list, "rand_mixedcase_letter_val"),
+               (TypeError,)),
+        IOPair((get_rand_az_string_mixedcase(LONG_STRING_LENGTH), bool, "rand_mixedcase_long_az_string_val"),
+                (TypeError,)),
+        IOPair((get_rand_az_string_mixedcase(LONG_STRING_LENGTH), int, "rand_mixedcase_long_az_string_val"),
+               (TypeError,)),
+        IOPair((get_rand_az_string_mixedcase(LONG_STRING_LENGTH), float, "rand_mixedcase_long_az_string_val"),
+               (TypeError,)),
+        IOPair((get_rand_az_string_mixedcase(LONG_STRING_LENGTH), list, "rand_mixedcase_long_az_string_val"),
+                (TypeError,)),
+        # Test check type on lists
+        IOPair(([], list, "empty_list"), (True,)),
+        IOPair(([get_rand_int()], list, "single_int_list"), (True,)),
+        IOPair((get_rand_int_list(SHORT_LIST_LENGTH), list, "short_int_list"), (True,)),
+        IOPair(([], bool, "empty_list"), (TypeError,)),
+        IOPair(([], int, "empty_list"), (TypeError,)),
+        IOPair(([], float, "empty_list"), (TypeError,)),
+        IOPair(([], str, "empty_list"), (TypeError,)),
+        IOPair(([get_rand_int()], bool, "single_int_list"), (TypeError,)),
+        IOPair(([get_rand_int()], int, "single_int_list"), (TypeError,)),
+        IOPair(([get_rand_int()], float, "single_int_list"), (TypeError,)),
+        IOPair(([get_rand_int()], str, "single_int_list"), (TypeError,)),
+        IOPair((get_rand_int_list(SHORT_LIST_LENGTH), bool, "short_int_list"), (TypeError,)),
+        IOPair((get_rand_int_list(SHORT_LIST_LENGTH), int, "short_int_list"), (TypeError,)),
+        IOPair((get_rand_int_list(SHORT_LIST_LENGTH), float, "short_int_list"), (TypeError,)),
+        IOPair((get_rand_int_list(SHORT_LIST_LENGTH), str, "short_int_list"), (TypeError,)),
+        ])
 
 
 if test_check_can_convert or run_all_tests:
     test_lib.run_func_tests(error_lib.check_can_convert,[
-                # Test check type on an integer of value zero
+                # Test can convert on an integer of value zero
                 IOPair((0, int, "zero_int_val"),(True,)),
                 IOPair((0,float, "zero_int_val"),(True,)),
                 IOPair((0,str, "zero_int_val"),(True,)),
                 IOPair((0, list, "zero_int_val"), (TypeError,)),
-                # Test check type on a random positive integer
+                # Test can convert on a random positive integer
                 IOPair((get_rand_pos_int(), int, "rand_pos_int_val"), (True,)),
                 IOPair((get_rand_pos_int(), float, "rand_pos_int_val"), (True,)),
                 IOPair((get_rand_pos_int(), str, "rand_pos_int_val"), (True,)),
                 IOPair((get_rand_pos_int(), list, "rand_pos_int_val"), (TypeError,)),
-                # Test check type on a random negative integer
+                # Test can convert on a random negative integer
                 IOPair((get_rand_neg_int(), int, "rand_neg_int_val"), (True,)),
                 IOPair((get_rand_neg_int(), float, "rand_neg_val"), (True,)),
                 IOPair((get_rand_neg_int(), str, "rand_neg_int_val"), (True,)),
                 IOPair((get_rand_neg_int(), list, "rand_neg_int_val"), (TypeError,)),
-                # Test check type on floats
-                # Test check type on strings
-                # Test check type on list variables
+                # Test can convert on floats
+                # Test can convert on strings
+                # Test can convert on list variables
                 IOPair(([], list, "empty_list"), (True,)),
                 IOPair(([get_rand_int()], list, "single_rand_int_list"), (True,)),
                 IOPair((get_rand_int_list(LONG_LIST_LENGTH), list, "long_int_list"), (True,)),
