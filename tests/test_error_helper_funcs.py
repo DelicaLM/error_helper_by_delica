@@ -653,3 +653,24 @@ if test_check_value_is_in_range:
         IOPair((0, 0, 0, "zero_val", True, 1), (TypeError,)),
         IOPair((0, 0, 0, "zero_val", True, True, 1), (TypeError,)),
     ])
+
+if test_check_value_is_in_set or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_value_is_in_set, [
+        # Test check is in set on empty set.
+        IOPair((0, [], "zero_int"), (ValueError,)),
+        IOPair(("", [], "zero_int"), (ValueError,)),
+        IOPair(([], [], "zero_int"), (ValueError,)),
+        # Test check is in set on set with one element.
+        IOPair((0, [0], "zero_int"), (True,)),
+        IOPair((0, [1], "zero_int"), (ValueError,)),
+        IOPair(("", [""], "empty_string"), (True,)),
+        IOPair(("0", ["1"], "zero_string"), (ValueError,)),
+        # Test check is in set on sets with multiple elements.
+        IOPair((1, [1, 1, 1], "int_val"), (True,)),
+        IOPair((3, [1, 2, 3], "int_val"), (True,)),
+        IOPair((4, [1, 2, 3], "int_val"), (ValueError,)),
+        IOPair((0, [1, 2, 3], "int_val"), (ValueError,)),
+        # Test check is in set on sets that contain lists.
+        IOPair(([], [[], [], []], "empty_list"), (True,)),
+        IOPair(([], [[1], [2], [3]], "empty_list"), (ValueError,)),
+    ])
