@@ -6,6 +6,8 @@ from test_helper_by_delica.IOPair import IOPair
 
 import random as rand
 
+from error_helper_by_delica import error_helper_funcs
+
 LARGE_INT = 100000000
 SHORT_LIST_LENGTH = 10
 LONG_LIST_LENGTH = 250
@@ -538,3 +540,39 @@ if test_check_can_convert or run_all_tests:
         IOPair((int, list, "int_type"), (TypeError,)),
         ])
 
+
+if test_check_value_is_in_range:
+    test_lib.run_func_tests(error_lib.check_value_is_in_range, [
+        # Test check in range on integer of value zero.
+        IOPair((0, 0, 0, "zero_int"),(True,)),
+        IOPair((0, 0, 0, "zero_int", False, True, ""), (ValueError,)),
+        IOPair((0, 0, 0, "zero_int", True, False, ""), (ValueError,)),
+        IOPair((0, 0, 0, "zero_int", False, False, ""), (ValueError,)),
+        # Test check in range on positive integers.
+        IOPair((10, 9, 11, "pos_int"), (True,)),
+        IOPair((10, 9, 11, "pos_int", False, False), (True,)),
+        IOPair((10, 9, 11, "pos_int", False, True), (True,)),
+        IOPair((10, 9, 11, "pos_int", True, False), (True,)),
+        IOPair((4, 4, 5, "pos_int", True, False), (True,)),
+        IOPair((4, 4, 5, "pos_int", False, True), (ValueError,)),
+        IOPair((5, 4, 5, "pos_int", False, True), (True,)),
+        IOPair((5, 4, 5, "pos_int", True, False), (ValueError,)),
+        IOPair((4, 5, 6, "pos_int"), (ValueError,)),
+        IOPair((7, 5, 6, "pos_int"), (ValueError,)),
+        # Test check in range on negative integers.
+        IOPair((-10, -11, -9, "pos_int"), (True,)),
+        IOPair((-10, -11, -9, "pos_int", False, False), (True,)),
+        IOPair((-10, -11, -9, "pos_int", False, True), (True,)),
+        IOPair((-10, -11, -9, "pos_int", True, False), (True,)),
+        IOPair((-4, -4, -3, "pos_int", True, False), (True,)),
+        IOPair((-4, -4, -3, "pos_int", False, True), (ValueError,)),
+        IOPair((-3, -4, -3, "pos_int", False, True), (True,)),
+        IOPair((-3, -4, -3, "pos_int", True, False), (ValueError,)),
+        IOPair((-4, -6, -5, "pos_int"), (ValueError,)),
+        IOPair((-7, -6, -5, "pos_int"), (ValueError,)),
+        # Test check in range on integer of value zero.
+        IOPair((0.0, 0.0, 0.0, "zero_float"), (True,)),
+        IOPair((0.0, 0.0, 0.0, "zero_float", False, True, ""), (ValueError,)),
+        IOPair((0.0, 0.0, 0.0, "zero_float", True, False, ""), (ValueError,)),
+        IOPair((0.0, 0.0, 0.0, "zero_float", False, False, ""), (ValueError,)),
+    ])

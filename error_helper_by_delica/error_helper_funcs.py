@@ -217,12 +217,15 @@ def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inc
             error_string += "The value that you have provided for " + var_name + " is too small.\n"
             error_string += "Please provide a value greater than or equal to " + str(min_value) + ".\n"
             raise ValueError(error_string)
-        elif input_value > max_value:
-            error_string += "SUBMITTED VALUE: " + str(input_value)
-            error_string += " > MAXIMUM VALUE: " + str(max_value)
+        elif not is_less_than_max:
+            error_string += "SUBMITTED VALUE: " + str(input_value) + " >"
+            if max_inclusive:
+                error_string += "="
+            error_string += " MAXIMUM VALUE: " + str(max_value)
             error_string += "The value that you have provided for " + var_name + " is too large.\n"
             error_string += "Please provide a value greater than or equal to " + str(max_value) + ".\n"
             raise ValueError(error_string)
+
     return is_in_range
 
 
