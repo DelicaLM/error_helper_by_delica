@@ -545,9 +545,9 @@ if test_check_value_is_in_range:
     test_lib.run_func_tests(error_lib.check_value_is_in_range, [
         # Test check in range on integer of value zero.
         IOPair((0, 0, 0, "zero_int"),(True,)),
-        IOPair((0, 0, 0, "zero_int", False, True, ""), (ValueError,)),
-        IOPair((0, 0, 0, "zero_int", True, False, ""), (ValueError,)),
-        IOPair((0, 0, 0, "zero_int", False, False, ""), (ValueError,)),
+        IOPair((0, 0, 0, "zero_int", False, True), (ValueError,)),
+        IOPair((0, 0, 0, "zero_int", True, False), (ValueError,)),
+        IOPair((0, 0, 0, "zero_int", False, False), (ValueError,)),
         # Test check in range on positive integers.
         IOPair((10, 9, 11, "pos_int"), (True,)),
         IOPair((10, 9, 11, "pos_int", False, False), (True,)),
@@ -570,9 +570,57 @@ if test_check_value_is_in_range:
         IOPair((-3, -4, -3, "pos_int", True, False), (ValueError,)),
         IOPair((-4, -6, -5, "pos_int"), (ValueError,)),
         IOPair((-7, -6, -5, "pos_int"), (ValueError,)),
-        # Test check in range on integer of value zero.
+        # Test check in range on float of value zero.
         IOPair((0.0, 0.0, 0.0, "zero_float"), (True,)),
         IOPair((0.0, 0.0, 0.0, "zero_float", False, True, ""), (ValueError,)),
         IOPair((0.0, 0.0, 0.0, "zero_float", True, False, ""), (ValueError,)),
         IOPair((0.0, 0.0, 0.0, "zero_float", False, False, ""), (ValueError,)),
+        # Test check in range on positive floats.
+        IOPair((10.0, 9.0, 11.0, "pos_float"), (True,)),
+        IOPair((10.0, 9.0, 11.0, "pos_float", False, False), (True,)),
+        IOPair((10.0, 9.0, 11.0, "pos_float", False, True), (True,)),
+        IOPair((10.0, 9.0, 11.0, "pos_float", True, False), (True,)),
+        IOPair((4.0, 4.0, 5.0, "pos_float", True, False), (True,)),
+        IOPair((4.0, 4.0, 5.0, "pos_float", False, True), (ValueError,)),
+        IOPair((5.0, 4.0, 5.0, "pos_float", False, True), (True,)),
+        IOPair((5.0, 4.0, 5.0, "pos_float", True, False), (ValueError,)),
+        IOPair((4.0, 5.0, 6.0, "pos_float"), (ValueError,)),
+        IOPair((7.0, 5.0, 6.0, "pos_float"), (ValueError,)),
+        # Test check in range on negative integers.
+        IOPair((-10.0, -11.0, -9.0, "pos_float"), (True,)),
+        IOPair((-10.0, -11.0, -9.0, "pos_float", False, False), (True,)),
+        IOPair((-10.0, -11.0, -9.0, "pos_float", False, True), (True,)),
+        IOPair((-10.0, -11.0, -9.0, "pos_float", True, False), (True,)),
+        IOPair((-4.0, -4.0, -3.0, "pos_float", True, False), (True,)),
+        IOPair((-4.0, -4.0, -3.0, "pos_float", False, True), (ValueError,)),
+        IOPair((-3.0, -4.0, -3.0, "pos_float", False, True), (True,)),
+        IOPair((-3.0, -4.0, -3.0, "pos_float", True, False), (ValueError,)),
+        IOPair((-4.0, -6.0, -5.0, "pos_float"), (ValueError,)),
+        IOPair((-7.0, -6.0, -5.0, "pos_float"), (ValueError,)),
+        # Test check in range on integers and floats.
+        IOPair((2.0, 1, 3,  "pos_float"), (True,)),
+        IOPair((2, 1.0, 3, "pos_int"), (True,)),
+        IOPair((2, 1, 3.0, "pos_int"), (True,)),
+        IOPair((2.0, 4, 3, "pos_float"), (ValueError,)),
+        IOPair((2, 4.0, 3, "pos_int"), (ValueError,)),
+        IOPair((2, 4, 3.0, "pos_int"), (ValueError,)),
+        # Test check in range on single character strings.
+        IOPair(('b', 'a', 'c', "single_letter"), (True,)),
+        IOPair(('B', 'A', 'C', "single_letter"), (True,)),
+        IOPair(('a', 'a', 'c', "single_letter", True, False), (True,)),
+        IOPair(('a', 'a', 'c', "single_letter", False, True), (ValueError,)),
+        IOPair(('c', 'a', 'c', "single_letter", False, True), (True,)),
+        IOPair(('c', 'a', 'c', "single_letter", True, False), (ValueError,)),
+        IOPair(('a', 'b', 'c', "single_letter"), (ValueError,)),
+        IOPair(('c', 'a', 'b', "single_letter", False, True), (ValueError,)),
+        # Test check in range on multi-character strings.
+        IOPair(('ab', 'aa', 'ac', "single_letter"), (True,)),
+        IOPair(('aB', 'aA', 'aC', "single_letter"), (True,)),
+        IOPair(('aa', 'aa', 'ac', "single_letter", True, False), (True,)),
+        IOPair(('aa', 'aa', 'ac', "single_letter", False, True), (ValueError,)),
+        IOPair(('ac', 'aa', 'ac', "single_letter", False, True), (True,)),
+        IOPair(('ac', 'aa', 'ac', "single_letter", True, False), (ValueError,)),
+        IOPair(('aa', 'ab', 'ac', "single_letter"), (ValueError,)),
+        IOPair(('ac', 'aa', 'ab', "single_letter", False, True), (ValueError,)),
+        # Test check in range on boolean values.
     ])
