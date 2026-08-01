@@ -99,21 +99,47 @@ def check_type(input_value, required_type, var_name, alt_type=None, alt_types=No
     return is_correct_type
 
 def check_can_convert(input_value, post_convert_type, var_name, prefix=""):
-    in_range_setup_prefix = prefix + "\nCAN CONVERT VALIDATION SETUP ERROR\n"
+    """Checks if an input value can be converted to a desired type and raises a TypeError if not.
+
+    Parameters
+    ----------
+    input_value : any
+        The input value to check.
+    post_convert_type : type
+        The type that we will try to convert the input value to.
+    var_name : str
+        The name of the variable that is being checked (necessary for creating detailed error messages).
+    prefix : str, optional
+        A string that should be added to the start of the error message if one is raised (empty string by default)
+        (allows user to further customize the error message).
+
+    Returns
+    -------
+    can_convert : bool
+        Boolean for whether the input value can be converted to the desired type.
+
+    Raises
+    ------
+    TypeError
+        Raised if the input cannot be converted to the desired type.
+    """
+    can_convert_setup_prefix = prefix + "\nCAN CONVERT VALIDATION SETUP ERROR\n"
     # Make sure that the variable name is a string.
-    check_type(var_name, str,
-               "the name of the variable that is being checked (for whether it can be converted to a desired type)", prefix=in_range_setup_prefix)
+    check_type(var_name, str,("the name of the variable that is being checked (for whether it can be converted to "
+                              + "a desired type)"), prefix=can_convert_setup_prefix)
     can_convert = True
     try:
         conv_value = post_convert_type(input_value)
     except (TypeError, ValueError):
         can_convert = False
         error_string = prefix + "\nCONVERSION ERROR\n"
-        error_string += f"\nThe input value that you provided for {var_name} cannot be converted to a {post_convert_type.__name__}\n"
+        error_string += (f"\nThe input value that you provided for {var_name} cannot be converted to a(n) " +
+                         f"{post_convert_type.__name__}.\n")
         raise TypeError(error_string)
     return can_convert
 
-def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inclusive=True, max_inclusive=True, prefix=""):
+def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inclusive=True, max_inclusive=True,
+                            prefix=""):
     """Checks if an input value is within a certain range. Raises a ValueError if the input value is not between the
     specified minimum and maximum values (inclusive comparisons by default (i.e., <=, >=); can be switched to exclusive
     (i.e., <, >).
@@ -191,12 +217,15 @@ def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inc
             error_string += "The value that you have provided for " + var_name + " is too small.\n"
             error_string += "Please provide a value greater than or equal to " + str(min_value) + ".\n"
             raise ValueError(error_string)
-        elif input_value > max_value:
-            error_string += "SUBMITTED VALUE: " + str(input_value)
-            error_string += " > MAXIMUM VALUE: " + str(max_value)
+        elif not is_less_than_max:
+            error_string += "SUBMITTED VALUE: " + str(input_value) + " >"
+            if max_inclusive:
+                error_string += "="
+            error_string += " MAXIMUM VALUE: " + str(max_value)
             error_string += "The value that you have provided for " + var_name + " is too large.\n"
             error_string += "Please provide a value greater than or equal to " + str(max_value) + ".\n"
             raise ValueError(error_string)
+
     return is_in_range
 
 
