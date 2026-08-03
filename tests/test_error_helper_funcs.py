@@ -4,7 +4,7 @@ import error_helper_by_delica as error_lib
 import test_helper_by_delica as test_lib
 from test_helper_by_delica.IOPair import IOPair
 
-run_all_tests = True
+run_all_tests = False
 "bool : Boolean flag for whether all tests should be run, regardless of their boolean flags below."
 
 test_check_type = False
@@ -13,6 +13,10 @@ test_check_can_convert = False
 "bool : Boolean flag for whether or not to run the tests for the check_can_convert function."
 test_check_value_is_in_range = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_range function."
+test_check_value_is_positive = True
+"bool : Boolean flag for whether or not to run the tests for the check_value_is_positive function."
+test_check_value_is_negative = False
+"bool : Boolean flag for whether or not to run the tests for the check_value_is_negative function."
 test_check_value_is_in_set = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
 
@@ -437,6 +441,10 @@ if test_check_value_is_in_range:
         IOPair((0, 0, 0, "zero_val", True, True, 1), (TypeError,)),
     ])
 
+if test_check_value_is_positive or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_value_is_positive, [
+        IOPair((1,"int_val"),(True,))
+    ])
 if test_check_value_is_in_set or run_all_tests:
     test_lib.run_func_tests(error_lib.check_value_is_in_set, [
         # Test check is in set on empty set.
