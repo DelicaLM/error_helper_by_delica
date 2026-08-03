@@ -138,6 +138,8 @@ def check_can_convert(input_value, post_convert_type, var_name, prefix=""):
         raise TypeError(error_string)
     return can_convert
 
+
+
 def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inclusive=True, max_inclusive=True,
                             prefix=""):
     """Checks if an input value is within a certain range. Raises a ValueError if the input value is not between the
@@ -225,9 +227,19 @@ def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inc
             error_string += "The value that you have provided for " + var_name + " is too large.\n"
             error_string += "Please provide a value greater than or equal to " + str(max_value) + ".\n"
             raise ValueError(error_string)
-
     return is_in_range
 
+def check_value_is_positive(input_value, var_name, prefix=""):
+    return check_value_is_in_range(input_value, 0, float('inf'), var_name, min_inclusive=False, prefix=prefix)
+
+def check_value_is_positive_or_zero(input_value, var_name, prefix=""):
+    return check_value_is_in_range(input_value, 0, float('inf'), var_name, prefix=prefix)
+
+def check_value_is_negative(input_value, var_name, prefix=""):
+    return check_value_is_in_range(input_value, float('-inf'), 0, var_name, max_inclusive=False, prefix=prefix)
+
+def check_value_is_negative_or_zero(input_value, var_name, prefix=""):
+    return check_value_is_in_range(input_value, float('-inf'), 0, var_name, prefix=prefix)
 
 def check_value_is_in_set(input_value, accepted_values, var_name, prefix=""):
     """Verifies whether an input value is in a provided set of accepted values.
@@ -283,6 +295,7 @@ def check_value_is_in_set(input_value, accepted_values, var_name, prefix=""):
         # Raise the ValueError with the constructed message.
         raise ValueError(error_string)
     return is_in_set
+
 
 def check_matrix_values_in_range(input_matrix, min_value, max_value, var_name, prefix=""):
     pass
