@@ -15,8 +15,12 @@ test_check_value_is_in_range = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_range function."
 test_check_value_is_positive = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_positive function."
+test_check_value_is_positive_or_zero = False
+"bool : Boolean flag for whether or not to run the tests for the check_value_is_positive_or_zero function."
 test_check_value_is_negative = True
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_negative function."
+test_check_value_is_negative_or_zero = True
+"bool : Boolean flag for whether or not to run the tests for the check_value_is_negative_or_zero function."
 test_check_value_is_in_set = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
 
@@ -455,6 +459,20 @@ if test_check_value_is_positive or run_all_tests:
         IOPair((-100000.9, "large_neg_float_val"), (ValueError,)),
     ])
 
+if test_check_value_is_positive_or_zero or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_value_is_positive_or_zero, [
+        IOPair((1,"pos_int_val"),(True,)),
+        IOPair((0.1, "pos_float_val"), (True,)),
+        IOPair((100000, "large_pos_int_val"), (True,)),
+        IOPair((100000.9, "large_pos_float_val"), (True,)),
+        IOPair((0, "zero_int_val"), (True,)),
+        IOPair((0.0, "zero_float_val"), (True,)),
+        IOPair((-1, "neg_int_val"), (ValueError,)),
+        IOPair((-1.0, "neg_float_val"), (ValueError,)),
+        IOPair((-100000, "large_neg_int_val"), (ValueError,)),
+        IOPair((-100000.9, "large_neg_float_val"), (ValueError,)),
+    ])
+
 if test_check_value_is_negative or run_all_tests:
     test_lib.run_func_tests(error_lib.check_value_is_negative, [
         IOPair((1,"pos_int_val"),(ValueError,)),
@@ -463,6 +481,20 @@ if test_check_value_is_negative or run_all_tests:
         IOPair((100000.9, "large_pos_float_val"), (ValueError,)),
         IOPair((0, "zero_int_val"), (ValueError,)),
         IOPair((0.0, "zero_float_val"), (ValueError,)),
+        IOPair((-1, "neg_int_val"), (True,)),
+        IOPair((-1.0, "neg_float_val"), (True,)),
+        IOPair((-100000, "large_neg_int_val"), (True,)),
+        IOPair((-100000.9, "large_neg_float_val"), (True,)),
+    ])
+
+if test_check_value_is_negative_or_zero or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_value_is_negative_or_zero, [
+        IOPair((1,"pos_int_val"),(ValueError,)),
+        IOPair((0.1, "pos_float_val"), (ValueError,)),
+        IOPair((100000, "large_pos_int_val"), (ValueError,)),
+        IOPair((100000.9, "large_pos_float_val"), (ValueError,)),
+        IOPair((0, "zero_int_val"), (True,)),
+        IOPair((0.0, "zero_float_val"), (True,)),
         IOPair((-1, "neg_int_val"), (True,)),
         IOPair((-1.0, "neg_float_val"), (True,)),
         IOPair((-100000, "large_neg_int_val"), (True,)),

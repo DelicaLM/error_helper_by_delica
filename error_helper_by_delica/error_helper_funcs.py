@@ -232,8 +232,14 @@ def check_value_is_in_range(input_value, min_value, max_value, var_name, min_inc
 def check_value_is_positive(input_value, var_name, prefix=""):
     return check_value_is_in_range(input_value, 0, float('inf'), var_name, min_inclusive=False, prefix=prefix)
 
+def check_value_is_positive_or_zero(input_value, var_name, prefix=""):
+    return check_value_is_in_range(input_value, 0, float('inf'), var_name, prefix=prefix)
+
 def check_value_is_negative(input_value, var_name, prefix=""):
     return check_value_is_in_range(input_value, float('-inf'), 0, var_name, max_inclusive=False, prefix=prefix)
+
+def check_value_is_negative_or_zero(input_value, var_name, prefix=""):
+    return check_value_is_in_range(input_value, float('-inf'), 0, var_name, prefix=prefix)
 
 def check_value_is_in_set(input_value, accepted_values, var_name, prefix=""):
     """Verifies whether an input value is in a provided set of accepted values.
