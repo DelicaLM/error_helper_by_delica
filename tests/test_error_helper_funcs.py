@@ -1,4 +1,4 @@
-"""Script to test the functions in the test helper package (error_helper_funcs.py)."""
+"""Script to test the functions in the error helper package (error_helper_funcs.py)."""
 
 import error_helper_by_delica as error_lib
 import test_helper_by_delica as test_lib
