@@ -98,6 +98,81 @@ def check_type(input_value, required_type, var_name, alt_type=None, alt_types=No
     # if there was no need for a TypeError).
     return is_correct_type
 
+def check_list_item_types(input_list, required_item_type, var_name, alt_type=None, alt_types=None, prefix = ""):
+    """Checks if all items in a list have the correct type. Raises a TypeError with an informative error message if
+    any of the items in the list have an invalid type.
+
+    Parameters
+    ----------
+    input_list : list
+        The list of items to check.
+    required_item_type : type
+        The type that every item in the list should have.
+    var_name : str
+        The name of the list variable that is being checked (necessary for creating detailed error messages).
+    alt_type : type, default None
+        An alternative valid type that the list items can have, if there is one.
+    alt_types : list[type], default None
+        A list of alternative valid types, if there are more than one.
+    prefix : str, default ""
+        A string prefix for the error message if one is raised (empty string by default).
+
+    Returns
+    -------
+    all_items_have_correct_type : bool
+        Boolean for whether all of the list items have the correct type or a valid alternative type.
+
+    Raises
+    ------
+    TypeError
+        Raised if any of the list items have an incorrect type (or if any of the parameters for this function have an
+        incorrect type).
+    """
+    check_type(input_list, list, "Input List (in check list item types)")
+    check_type(required_item_type, type, "Required Item Type (in check list item types)")
+    check_type(var_name, str, "Var Name (in check list item types)")
+    if alt_type is not None:
+        check_type(alt_type, type, "Alternative Type (in check list item types)")
+    if alt_types is not None:
+        check_type(alt_types, list, "Alternative Types List (in check list item types)")
+    check_type(prefix, str, "Prefix String (in check list item types)")
+    all_items_have_correct_type = True
+    incorrect_item_type = None
+    incorrect_item_index = None
+    item_index = 0
+    list_length = len(input_list)
+    while item_index < list_length and all_items_have_correct_type:
+        item = input_list[item_index]
+        item_type = type(item)
+        item_has_correct_type = item_type == required_item_type
+        if not item_has_correct_type and alt_type is not None:
+            item_has_correct_type = item_type == alt_type
+        if not item_has_correct_type and alt_types is not None:
+            alt_types_length = len(alt_types)
+            alt_types_index = 0
+            while alt_types_index < alt_types_length and not item_has_correct_type:
+                item_has_correct_type = item_type == alt_types[alt_types_index]
+                alt_types_index += 1
+        all_items_have_correct_type &= item_has_correct_type
+        if not all_items_have_correct_type:
+            incorrect_item_type = item_type
+            incorrect_item_index = item_index
+        item_index += 1
+    if not all_items_have_correct_type:
+        expected_type_str = str(required_item_type)
+        if expected_type_str.startswith("<class '"):
+            expected_type_str = expected_type_str[len("<class '"):len(expected_type_str) - 2]
+        received_type_str = str(incorrect_item_type)
+        if received_type_str.startswith("<class '"):
+            received_type_str = received_type_str[len("<class '"):len(received_type_str) - 2]
+        # Start the error message with the prefix string.
+        error_string = (f"{prefix} SUBMITTED TYPE: {received_type_str} REQUIRED TYPE: {expected_type_str}\n"
+                    + f"You have submitted an incorrect type for the items in \"{var_name}\" at index "
+                    + f"{incorrect_item_index}.\nPlease provide values of type {expected_type_str} for all items in "
+                    + f"this list.")
+        raise TypeError(error_string)
+    return all_items_have_correct_type
+
 def check_can_convert(input_value, post_convert_type, var_name, prefix=""):
     """Checks if an input value can be converted to a desired type and raises a TypeError if not.
 
