@@ -220,6 +220,9 @@ if test_check_type or run_all_tests:
 if test_check_list_item_types or run_all_tests:
     test_lib.run_func_tests(error_lib.check_list_item_types, [
         IOPair(([], int, "empty list"),(True,)),
+        IOPair(([True], bool, "one bool list"), (True,)),
+        IOPair(([False], bool, "one bool list"), (True,)),
+        IOPair(([False, True, 1, True], bool, "bool and int list"), (TypeError,)),
         IOPair(([test_lib.get_rand_int()], int, "one int list"), (True,)),
         IOPair(([test_lib.get_rand_int(), test_lib.get_rand_int()], int, "two int list"), (True,)),
         IOPair(([test_lib.get_rand_int(), test_lib.get_rand_int(), test_lib.get_rand_int()], int,
@@ -231,6 +234,16 @@ if test_check_list_item_types or run_all_tests:
                (TypeError,)),
         IOPair((1, int, "no input list"), (TypeError,)),
         IOPair(([], 1, "invalid type"), (TypeError,)),
+        IOPair(([test_lib.get_rand_float(), test_lib.get_rand_float(), test_lib.get_rand_float()], float,
+                "three float list"), (True,)),
+        IOPair(([test_lib.get_rand_float(), test_lib.get_rand_az_string_mixedcase(3),
+                 test_lib.get_rand_float()], float, "float and string list"), (TypeError,)),
+        IOPair(([test_lib.get_rand_az_string_mixedcase(3), test_lib.get_rand_az_string_mixedcase(3),
+                 test_lib.get_rand_az_string_mixedcase(3)], str, "string list"), (True,)),
+        IOPair(([test_lib.get_rand_az_string_mixedcase(3), test_lib.get_rand_az_string_mixedcase(3),
+                 test_lib.get_rand_az_string_mixedcase(3), 1], str, "string list"), (TypeError,)),
+        IOPair(([[], []], list, "nested list"), (True,)),
+        IOPair(([[1], []], list, "nested list"), (True,)),
     ])
 
 if test_check_can_convert or run_all_tests:
