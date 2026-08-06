@@ -9,6 +9,8 @@ run_all_tests = False
 
 test_check_type = False
 "bool : Boolean flag for whether or not to run the tests for the check_type function."
+test_check_list_item_types = True
+"bool : Boolean flag for whether or not to run the tests for the check_list_items_types function."
 test_check_can_convert = False
 "bool : Boolean flag for whether or not to run the tests for the check_can_convert function."
 test_check_value_is_in_range = False
@@ -17,9 +19,9 @@ test_check_value_is_positive = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_positive function."
 test_check_value_is_positive_or_zero = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_positive_or_zero function."
-test_check_value_is_negative = True
+test_check_value_is_negative = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_negative function."
-test_check_value_is_negative_or_zero = True
+test_check_value_is_negative_or_zero = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_negative_or_zero function."
 test_check_value_is_in_set = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
@@ -215,6 +217,21 @@ if test_check_type or run_all_tests:
         IOPair((int, list, "int_type"), (TypeError,)),
         ])
 
+if test_check_list_item_types or run_all_tests:
+    test_lib.run_func_tests(error_lib.check_list_item_types, [
+        IOPair(([], int, "empty list"),(True,)),
+        IOPair(([test_lib.get_rand_int()], int, "one int list"), (True,)),
+        IOPair(([test_lib.get_rand_int(), test_lib.get_rand_int()], int, "two int list"), (True,)),
+        IOPair(([test_lib.get_rand_int(), test_lib.get_rand_int(), test_lib.get_rand_int()], int,
+                "three int list"),(True,)),
+        IOPair(([test_lib.get_rand_int()], float, "one int list"), (TypeError,)),
+        IOPair(([test_lib.get_rand_float(),test_lib.get_rand_int()], float, "float and int list"),
+               (TypeError,)),
+        IOPair(([test_lib.get_rand_float(), test_lib.get_rand_int()], int, "float and int list"),
+               (TypeError,)),
+        IOPair((1, int, "no input list"), (TypeError,)),
+        IOPair(([], 1, "invalid type"), (TypeError,)),
+    ])
 
 if test_check_can_convert or run_all_tests:
     test_lib.run_func_tests(error_lib.check_can_convert,[

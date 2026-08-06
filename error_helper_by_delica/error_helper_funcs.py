@@ -137,6 +137,8 @@ def check_list_item_types(input_list, required_item_type, var_name, alt_type=Non
         check_type(alt_types, list, "Alternative Types List (in check list item types)")
     check_type(prefix, str, "Prefix String (in check list item types)")
     all_items_have_correct_type = True
+    incorrect_item_type = None
+    incorrect_item_index = None
     item_index = 0
     list_length = len(input_list)
     while item_index < list_length and all_items_have_correct_type:
@@ -152,7 +154,22 @@ def check_list_item_types(input_list, required_item_type, var_name, alt_type=Non
                 item_has_correct_type = item_type == alt_types[alt_types_index]
                 alt_types_index += 1
         all_items_have_correct_type &= item_has_correct_type
+        if not all_items_have_correct_type:
+            incorrect_item_type = item_type
+            incorrect_item_index = item_index
         item_index += 1
+    if not all_items_have_correct_type:
+        expected_type_str = str(required_item_type)
+        if expected_type_str.startswith("<class '"):
+            expected_type_str = expected_type_str[len("<class '"):len(expected_type_str) - 2]
+        received_type_str = str(incorrect_item_type)
+        if received_type_str.startswith("<class '"):
+            received_type_str = received_type_str[len("<class '"):len(received_type_str) - 2]
+        # Start the error message with the prefix string.
+        error_string = (f"{prefix} SUBMITTED TYPE: {received_type_str} REQUIRED TYPE: {expected_type_str}\n"
+                    + f"You have submitted an incorrect type for the items in \"{var_name}\" at index {item_index}.\n"
+                    + f"Please provide values of type {expected_type_str} for all items in this list.")
+        raise TypeError(error_string)
     return all_items_have_correct_type
 
 def check_can_convert(input_value, post_convert_type, var_name, prefix=""):
