@@ -244,6 +244,10 @@ if test_check_list_item_types or run_all_tests:
                  test_lib.get_rand_az_string_mixedcase(3), 1], str, "string list"), (TypeError,)),
         IOPair(([[], []], list, "nested list"), (True,)),
         IOPair(([[1], []], list, "nested list"), (True,)),
+        IOPair(([True, 1], bool, "bool and int list", int), (True,)),
+        IOPair(([True, 1], bool, "bool and int list", float), (TypeError,)),
+        IOPair(([True, 1, 1.0], bool, "bool and int list", int, [float]), (True,)),
+        IOPair(([True, 1, 1.0], bool, "bool and int list", None, [int, float]), (True,)),
     ])
 
 if test_check_can_convert or run_all_tests:
