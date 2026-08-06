@@ -167,8 +167,9 @@ def check_list_item_types(input_list, required_item_type, var_name, alt_type=Non
             received_type_str = received_type_str[len("<class '"):len(received_type_str) - 2]
         # Start the error message with the prefix string.
         error_string = (f"{prefix} SUBMITTED TYPE: {received_type_str} REQUIRED TYPE: {expected_type_str}\n"
-                    + f"You have submitted an incorrect type for the items in \"{var_name}\" at index {item_index}.\n"
-                    + f"Please provide values of type {expected_type_str} for all items in this list.")
+                    + f"You have submitted an incorrect type for the items in \"{var_name}\" at index "
+                    + f"{incorrect_item_index}.\nPlease provide values of type {expected_type_str} for all items in "
+                    + f"this list.")
         raise TypeError(error_string)
     return all_items_have_correct_type
 
