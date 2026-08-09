@@ -25,6 +25,21 @@ while type_index < num_types:
     type_index += 1
 
 
+def has_correct_type_or_alt_type(value, required_type, alt_type=None, alt_types=None):
+    type_and_val_none = value is None and required_type is None
+    has_correct_type = type_and_val_none
+    if not has_correct_type:
+        val_none_or_type_none = value is None or required_type is None
+        if not val_none_or_type_none:
+            value_type = type(value)
+            has_correct_type = value_type == required_type
+            if not has_correct_type and (alt_type is not None or alt_types is not None):
+                if alt_type is not None:
+                    has_correct_type = value_type == alt_type
+                if not has_correct_type and alt_types is not None:
+                    has_correct_type = value_type in alt_types
+    return has_correct_type
+
 def check_type(input_value, required_type, var_name, alt_type=None, alt_types=None,prefix = ""):
     """Checks if an input value has the correct type. Raises a TypeError with an informative error message
     if the input's type is invalid.
@@ -58,22 +73,23 @@ def check_type(input_value, required_type, var_name, alt_type=None, alt_types=No
     """
     # Get the type of the input value.
     received_type = type(input_value)
-    # Check if it matches the required type.
-    is_correct_type = received_type == required_type
-    # If the input does not have the main required type,
-    # check if it matches any provided alternative types.
-    if not is_correct_type:
-        # Check if anything was provided for the singular alternative type parameter.
-        if alt_type is not None:
-            # Check if the input has the alternative type.
-            is_correct_type = received_type == alt_type
-        # If we couldn't find a match with the single alternative, check if we have a list
-        # with multiple alternative types.
-        if not is_correct_type:
-            if alt_types is not None:
-                if type(alt_types) is list:
-                    # Check if the input type is in the alternatives list.
-                    is_correct_type = received_type in alt_types
+    is_correct_type = has_correct_type_or_alt_type(input_value, required_type, alt_type, alt_types)
+    # # Check if it matches the required type.
+    # is_correct_type = received_type == required_type
+    # # If the input does not have the main required type,
+    # # check if it matches any provided alternative types.
+    # if not is_correct_type:
+    #     # Check if anything was provided for the singular alternative type parameter.
+    #     if alt_type is not None:
+    #         # Check if the input has the alternative type.
+    #         is_correct_type = received_type == alt_type
+    #     # If we couldn't find a match with the single alternative, check if we have a list
+    #     # with multiple alternative types.
+    #     if not is_correct_type:
+    #         if alt_types is not None:
+    #             if type(alt_types) is list:
+    #                 # Check if the input type is in the alternatives list.
+    #                 is_correct_type = received_type in alt_types
     # Raise a type error if the input did not have the required type nor a valid alternative type.
     if not is_correct_type:
         expected_type_str = str(required_type)
@@ -141,23 +157,34 @@ def check_list_item_types(input_list, required_item_type, var_name, alt_type=Non
     incorrect_item_index = None
     item_index = 0
     list_length = len(input_list)
-    while item_index < list_length and all_items_have_correct_type:
-        item = input_list[item_index]
-        item_type = type(item)
-        item_has_correct_type = item_type == required_item_type
-        if not item_has_correct_type and alt_type is not None:
-            item_has_correct_type = item_type == alt_type
-        if not item_has_correct_type and alt_types is not None:
-            alt_types_length = len(alt_types)
-            alt_types_index = 0
-            while alt_types_index < alt_types_length and not item_has_correct_type:
-                item_has_correct_type = item_type == alt_types[alt_types_index]
-                alt_types_index += 1
-        all_items_have_correct_type &= item_has_correct_type
+    if list_length > 0:
+        type_bool_gen = (index for index, x in enumerate(input_list)
+                         if not has_correct_type_or_alt_type(x, required_item_type, alt_type, alt_types))
+        first_incorrect_item_index = next(type_bool_gen, None)
+        all_items_have_correct_type = first_incorrect_item_index is None
         if not all_items_have_correct_type:
-            incorrect_item_type = item_type
-            incorrect_item_index = item_index
-        item_index += 1
+            incorrect_item_index = first_incorrect_item_index
+            incorrect_item_type = type(input_list[incorrect_item_index])
+        # type_bools = [has_correct_type_or_alt_type(x, required_item_type, alt_type, alt_types) for x in input_list]
+        # first_incorrect_index = type_bools
+        # if first_incorrect_index != incorrect_item_index:
+    # while item_index < list_length and all_items_have_correct_type:
+    #     item = input_list[item_index]
+    #     item_type = type(item)
+    #     item_has_correct_type = item_type == required_item_type
+    #     if not item_has_correct_type and alt_type is not None:
+    #         item_has_correct_type = item_type == alt_type
+    #     if not item_has_correct_type and alt_types is not None:
+    #         alt_types_length = len(alt_types)
+    #         alt_types_index = 0
+    #         while alt_types_index < alt_types_length and not item_has_correct_type:
+    #             item_has_correct_type = item_type == alt_types[alt_types_index]
+    #             alt_types_index += 1
+    #     all_items_have_correct_type &= item_has_correct_type
+    #     if not all_items_have_correct_type:
+    #         incorrect_item_type = item_type
+    #         incorrect_item_index = item_index
+    #     item_index += 1
     if not all_items_have_correct_type:
         expected_type_str = str(required_item_type)
         if expected_type_str.startswith("<class '"):

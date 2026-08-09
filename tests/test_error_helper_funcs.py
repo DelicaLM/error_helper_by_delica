@@ -7,6 +7,8 @@ from test_helper_by_delica.IOPair import IOPair
 run_all_tests = False
 "bool : Boolean flag for whether all tests should be run, regardless of their boolean flags below."
 
+test_has_correct_type_or_alt_type = False
+"bool : Boolean flag for whether or not to run the tests for the has_correct_type_or_alt_type function."
 test_check_type = False
 "bool : Boolean flag for whether or not to run the tests for the check_type function."
 test_check_list_item_types = True
@@ -25,6 +27,24 @@ test_check_value_is_negative_or_zero = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_negative_or_zero function."
 test_check_value_is_in_set = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
+
+if test_has_correct_type_or_alt_type or run_all_tests:
+    test_lib.run_func_tests(error_lib.has_correct_type_or_alt_type, [
+        IOPair((0, int),(True,)),
+        IOPair((0.0, float), (True,)),
+        IOPair(("0", str), (True,)),
+        IOPair(([], list), (True,)),
+        IOPair((0, float), (False,)),
+        IOPair((0, float, int), (True,)),
+        IOPair((0, float, None, [int]), (True,)),
+        IOPair((0, float, str, [int]), (True,)),
+        IOPair((0, float, int, [str]), (True,)),
+        IOPair((0.0, int), (False,)),
+        IOPair((0.0, int, float), (True,)),
+        IOPair((0.0, int, None, [float]), (True,)),
+        IOPair((0.0, int, str, [float]), (True,)),
+        IOPair((0.0, int, float, [str]), (True,)),
+    ])
 
 if test_check_type or run_all_tests:
     test_lib.run_func_tests(error_lib.check_type,
