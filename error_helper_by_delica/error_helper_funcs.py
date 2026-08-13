@@ -399,6 +399,19 @@ def check_value_is_in_set(input_value, accepted_values, var_name, prefix=""):
     return is_in_set
 
 
+def check_list_has_length(input_list, correct_length, var_name, prefix=""):
+    list_has_length_prefix = prefix + "\nLIST HAS LENGTH VALIDATION SETUP ERROR\n"
+    check_type(var_name, str,
+               "the name of the variable list that is being checked (for whether it has a desired length))",
+               prefix=list_has_length_prefix)
+    check_type(input_list, list,
+               "the list variable that is being checked (for whether it has a desired length))",
+               prefix=list_has_length_prefix)
+    check_type(correct_length, int,"the desired length of the list", prefix=list_has_length_prefix)
+    check_value_is_positive_or_zero(correct_length, "the desired length of the list",
+                                    prefix=list_has_length_prefix)
+    check_type(prefix, str,"the prefix for any potential error messages", prefix=list_has_length_prefix)
+
 def check_matrix_values_in_range(input_matrix, min_value, max_value, var_name, prefix=""):
     pass
 
