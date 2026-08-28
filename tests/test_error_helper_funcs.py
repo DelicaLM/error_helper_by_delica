@@ -11,7 +11,7 @@ test_has_correct_type_or_alt_type = False
 "bool : Boolean flag for whether or not to run the tests for the has_correct_type_or_alt_type function."
 test_check_type = False
 "bool : Boolean flag for whether or not to run the tests for the check_type function."
-test_check_list_item_types = True
+test_check_list_item_types = False
 "bool : Boolean flag for whether or not to run the tests for the check_list_items_types function."
 test_check_can_convert = False
 "bool : Boolean flag for whether or not to run the tests for the check_can_convert function."
@@ -27,6 +27,8 @@ test_check_value_is_negative_or_zero = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_negative_or_zero function."
 test_check_value_is_in_set = False
 "bool : Boolean flag for whether or not to run the tests for the check_value_is_in_set function."
+test_check_obj_has_length = True
+"bool : Boolean flag for whether or not to run the tests for the check_obj_has_length function."
 
 if test_has_correct_type_or_alt_type or run_all_tests:
     test_lib.run_func_tests(error_lib.has_correct_type_or_alt_type, [
@@ -575,3 +577,4 @@ if test_check_value_is_in_set or run_all_tests:
         IOPair(([], [[], [], []], "empty_list"), (True,)),
         IOPair(([], [[1], [2], [3]], "empty_list"), (ValueError,)),
     ])
+

@@ -412,6 +412,48 @@ def check_list_has_length(input_list, correct_length, var_name, prefix=""):
                                     prefix=list_has_length_prefix)
     check_type(prefix, str,"the prefix for any potential error messages", prefix=list_has_length_prefix)
 
+def check_obj_has_length(input_obj, correct_length, var_name, prefix=""):
+    obj_has_correct_length = False
+    obj_has_length_prefix = prefix + "\nOBJECT HAS LENGTH VALIDATION SETUP ERROR\n"
+    check_type(var_name, str,
+               "the name of the object that is being checked (for whether it has a desired length))",
+               prefix=obj_has_length_prefix)
+    obj_length = None
+    try:
+        obj_length = len(input_obj)
+    except TypeError:
+        # Start the error message with the optional prefix parameter.
+        error_string = prefix
+        # Add information about the value we were asked to check.
+        error_string += "SUBMITTED VALUE: " + str(input_obj) + "\n"
+        # Inform the user that the value is not acceptable.
+        error_string += ("The value that you have provided for "
+                         + var_name + " does not have a __len__ function.\n")
+        # Tell the user which values are acceptable for this variable.
+        error_string += "This error checking function should only be used on objects that have a length property\n"
+        error_string += "(e.g., lists and strings)."
+        raise TypeError(error_string)
+    if obj_length != correct_length:
+        error_string = prefix
+        # Add information about the value we were asked to check.
+        error_string += "SUBMITTED VALUE: " + str(input_obj) + "\n"
+        error_string += "The value that you have provided for " + var_name + " does not have the expected length.\n"
+        error_string += "EXPECTED LENGTH: " + str(correct_length) + "   ACTUAL LENGTH: " + str(obj_length) + "\n"
+        error_string += "Please provide a value with the correct length (" + str(correct_length) + ".\n"
+        raise ValueError(error_string)
+    obj_has_correct_length = obj_length == correct_length
+    return obj_has_correct_length
+
+
+    # check_type(input_list, list,
+    #            "the list variable that is being checked (for whether it has a desired length))",
+    #            prefix=list_has_length_prefix)
+    # check_type(correct_length, int,"the desired length of the list", prefix=list_has_length_prefix)
+    # check_value_is_positive_or_zero(correct_length, "the desired length of the list",
+    #                                 prefix=list_has_length_prefix)
+    # check_type(prefix, str,"the prefix for any potential error messages", prefix=list_has_length_prefix)
+
+
 def check_matrix_values_in_range(input_matrix, min_value, max_value, var_name, prefix=""):
     pass
 
